@@ -38,47 +38,49 @@ def save_currentsong(mpd_client: MPDClient, collection):
         current_status = mpd_client.status()
 
         if current_song != previous_song:
-            playback_info = {
-                "Artist": previous_song.get("artist", None),
-                "artistsort": previous_song.get("artistsort", None),
-                "albumartist": previous_song.get("albumartist", None),
-                "albumartistsort": previous_song.get("albumartistsort", None),
-                "timestamp": song_start_time,
-                "timestamp_end": datetime.now(timezone.utc),
-                "Album": previous_song.get("album", None),
-                "Name": previous_song.get("title", None),
-                "label": previous_song.get("label", None),
-                "Provider_musicbrainzalbum": previous_song.get(
-                    "musicbrainz_albumid", None
-                ),
-                "Provider_musicbrainzalbumartist": previous_song.get(
-                    "musicbrainz_albumartistid", None
-                ),
-                "Provider_musicbrainzartist": previous_song.get(
-                    "musicbrainz_artistid", None
-                ),
-                "Provider_musicbrainzreleasegroup": previous_song.get(
-                    "musicbrainz_releasetrackid", None
-                ),
-                "Provider_musicbrainztrack": previous_song.get(
-                    "musicbrainz_trackid", None
-                ),
-                "musicbrainz_workid": previous_song.get("musicbrainz_workid", None),
-                "Server": "mpd",
-                "ServerVersion": mpd_client.mpd_version,
-                "date": previous_song.get("date", None),
-                "originaldate": previous_song.get("originaldate", None),
-                "Year": previous_song.get("originaldate", "")[:4],
-                "disc": previous_song.get("disc", None),
-                "track": previous_song.get("track", None),
-                "genre": previous_song.get("genre", None),
-                "playback_position_seconds": previous_status.get("elapsed", None),
-                "run_time": previous_status.get("duration", None),
-            }
+            # songs that have no title will not be scrobbled
+            if previous_song.get("title", None) != None:
+                playback_info = {
+                    "Artist": previous_song.get("artist", None),
+                    "artistsort": previous_song.get("artistsort", None),
+                    "albumartist": previous_song.get("albumartist", None),
+                    "albumartistsort": previous_song.get("albumartistsort", None),
+                    "timestamp": song_start_time,
+                    "timestamp_end": datetime.now(timezone.utc),
+                    "Album": previous_song.get("album", None),
+                    "Name": previous_song.get("title", None),
+                    "label": previous_song.get("label", None),
+                    "Provider_musicbrainzalbum": previous_song.get(
+                        "musicbrainz_albumid", None
+                    ),
+                    "Provider_musicbrainzalbumartist": previous_song.get(
+                        "musicbrainz_albumartistid", None
+                    ),
+                    "Provider_musicbrainzartist": previous_song.get(
+                        "musicbrainz_artistid", None
+                    ),
+                    "Provider_musicbrainzreleasegroup": previous_song.get(
+                        "musicbrainz_releasetrackid", None
+                    ),
+                    "Provider_musicbrainztrack": previous_song.get(
+                        "musicbrainz_trackid", None
+                    ),
+                    "musicbrainz_workid": previous_song.get("musicbrainz_workid", None),
+                    "Server": "mpd",
+                    "ServerVersion": mpd_client.mpd_version,
+                    "date": previous_song.get("date", None),
+                    "originaldate": previous_song.get("originaldate", None),
+                    "Year": previous_song.get("originaldate", "")[:4],
+                    "disc": previous_song.get("disc", None),
+                    "track": previous_song.get("track", None),
+                    "genre": previous_song.get("genre", None),
+                    "playback_position_seconds": previous_status.get("elapsed", None),
+                    "run_time": previous_status.get("duration", None),
+                }
 
-            collection.insert_one(playback_info)
+                collection.insert_one(playback_info)
 
-            print(f"Playback of song {previous_song['title']} saved to database.")
+                print(f"Playback of song {previous_song['title']} saved to database.")
 
             song_start_time = datetime.now(timezone.utc)
             previous_song = current_song
