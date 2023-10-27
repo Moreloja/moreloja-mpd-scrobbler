@@ -1,0 +1,2 @@
+pymongo
+python-mpd2
