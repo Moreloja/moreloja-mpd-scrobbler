@@ -1,7 +1,7 @@
 # moreloja-mpd-scrobbler
 
 This program connects to mpd and queries the currentsong every second.
-When the song changes the data about the played song is saved in a mongodb document in a format that moreloja can use.
+When the song changes the data about the played song is saved in a mongodb document in a format that [Moreloja](https://github.com/Moreloja/Moreloja) can use.
 
 ## Usage
 
