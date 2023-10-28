@@ -70,12 +70,13 @@ def save_currentsong(mpd_client: MPDClient, collection):
                     "ServerVersion": mpd_client.mpd_version,
                     "date": previous_song.get("date", None),
                     "originaldate": previous_song.get("originaldate", None),
-                    "Year": previous_song.get("originaldate", "")[:4],
+                    "Year": int(previous_song.get("originaldate", "")[:4]),
                     "disc": previous_song.get("disc", None),
                     "track": previous_song.get("track", None),
                     "genre": previous_song.get("genre", None),
-                    "playback_position_seconds": previous_status.get("elapsed", None),
-                    "run_time": previous_status.get("duration", None),
+                    "playback_position_seconds": float(previous_status.get("elapsed", "0")),
+                    "run_time": float(previous_status.get("duration", "0")),
+                    "playback_info_schema_version": 2,
                 }
 
                 collection.insert_one(playback_info)
