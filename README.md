@@ -59,7 +59,7 @@ python main.py
     ServerVersion: '0.23.5',
     date: '2020-07-04',
     originaldate: '2020-07-04',
-    Year: '2020',
+    Year: 2020,
     disc: [
         '1',
         '1'
@@ -69,7 +69,8 @@ python main.py
         '1'
     ],
     genre: 'J-Pop',
-    playback_position_seconds: '243.994',
-    run_time: '244.160'
+    playback_position_seconds: 243.994,
+    run_time: 244.160,
+    playback_info_schema_version: 2
 }
 ```
