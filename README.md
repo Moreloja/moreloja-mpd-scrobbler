@@ -33,7 +33,7 @@ export MONGO_DB_NAME=moreloja
 ### Start
 
 ``` bash
-python main.py
+python ./src/main.py
 ```
 
 ## Example document

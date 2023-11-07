@@ -1,0 +1,51 @@
+repos:
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: c4a0b88
+    hooks:
+      - id: check-yaml
+      - id: check-added-large-files
+      - id: check-case-conflict
+      - id: check-json
+      - id: pretty-format-json
+        args: [--autofix]
+      - id: check-executables-have-shebangs
+      - id: check-shebang-scripts-are-executable
+      - id: debug-statements
+      - id: requirements-txt-fixer
+  - repo: https://github.com/pre-commit/pygrep-hooks
+    rev: 3a6eb0f
+    hooks:
+      - id: python-check-blanket-type-ignore
+      - id: python-use-type-annotations
+      - id: python-check-mock-methods
+  - repo: https://github.com/pycqa/isort
+    rev: 6dfb853
+    hooks:
+      - id: isort
+        name: isort (python)
+        files: 'src/'
+  # - repo: https://github.com/jendrikseipp/vulture
+  #   rev: bf15751
+  #   hooks:
+  #     - id: vulture
+  - repo: local
+    hooks:
+      - id: pylint
+        name: pylint
+        entry: pylint
+        language: system
+        require_serial: true
+        types: [ python ]
+        files: 'src/'
+      - id: black
+        name: black
+        entry: black
+        language: system
+        types: [ python ]
+        files: 'src/'
+      # - id: mypy
+      #   name: mypy
+      #   entry: mypy
+      #   language: system
+      #   types: [ python ]
+      #   files: 'src/'

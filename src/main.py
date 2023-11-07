@@ -1,11 +1,19 @@
+#!/usr/bin/env python3
+
+"""
+Scrobble songs listened to on mpd to moreloja.
+"""
+
 import os
-import pymongo
 import time
 from datetime import datetime, timezone
+
+import pymongo
 from mpd import MPDClient
 
 
 def connect_mongodb():
+    """Connect to mongodb and return the playback-info collection."""
     mongo_host = os.environ.get("MONGO_HOST")
     mongo_port = os.environ.get("MONGO_PORT")
     mongo_db = os.environ.get("MONGO_DB_NAME")
@@ -27,6 +35,9 @@ def connect_mongodb():
 
 
 def save_currentsong(mpd_client: MPDClient, collection):
+    """
+    Contains the main loop to query mpd and save played songs.
+    """
     # Get current song from mpd
     song_start_time = datetime.now(timezone.utc)
     previous_song = mpd_client.currentsong()
@@ -39,7 +50,7 @@ def save_currentsong(mpd_client: MPDClient, collection):
 
         if current_song != previous_song:
             # songs that have no title will not be scrobbled
-            if previous_song.get("title", None) != None:
+            if previous_song.get("title", None) is not None:
                 playback_info = {
                     "Artist": previous_song.get("artist", None),
                     "artistsort": previous_song.get("artistsort", None),
@@ -74,7 +85,9 @@ def save_currentsong(mpd_client: MPDClient, collection):
                     "disc": previous_song.get("disc", None),
                     "track": previous_song.get("track", None),
                     "genre": previous_song.get("genre", None),
-                    "playback_position_seconds": float(previous_status.get("elapsed", "0")),
+                    "playback_position_seconds": float(
+                        previous_status.get("elapsed", "0")
+                    ),
                     "run_time": float(previous_status.get("duration", "0")),
                     "playback_info_schema_version": 2,
                 }
@@ -94,12 +107,18 @@ def save_currentsong(mpd_client: MPDClient, collection):
         time.sleep(1)
 
 
-# Connect to mpd
-mpd_client = MPDClient()
-mpd_client.connect("localhost", 6600)
+def main():
+    """Main entry point"""
+    # Connect to mpd
+    mpd_client = MPDClient()
+    mpd_client.connect("localhost", 6600)
 
-# Connect to MongoDB
-collection = connect_mongodb()
+    # Connect to MongoDB
+    collection = connect_mongodb()
 
-# Get and save current song
-save_currentsong(mpd_client, collection)
+    # Get and save current song
+    save_currentsong(mpd_client, collection)
+
+
+if __name__ == "__main__":
+    main()
