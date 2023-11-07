@@ -9,7 +9,7 @@ When the song changes the data about the played song is saved in a mongodb docum
 
 Use venv if you want:
 
-``` bash
+```bash
 python -m venv venv
 source venv/bin/activate
 ```
@@ -18,27 +18,30 @@ source venv/bin/activate
 
 Install requirements.
 
-``` bash
+```bash
 pip install -r requirements.txt
 ```
 
 ### Configuration
 
-``` bash
+```bash
 export MONGO_HOST=localhost
 export MONGO_PORT=27017
 export MONGO_DB_NAME=moreloja
+
+export MPD_HOST=localhost
+export MPD_PORT=6600
 ```
 
 ### Start
 
-``` bash
+```bash
 python ./src/main.py
 ```
 
 ## Example document
 
-``` json
+```json
 {
     _id: ObjectId('653bbdb70c0dce126422b181'),
     Artist: 'Aimer',

@@ -111,7 +111,9 @@ def main():
     """Main entry point"""
     # Connect to mpd
     mpd_client = MPDClient()
-    mpd_client.connect("localhost", 6600)
+    mpd_host = os.environ.get("MPD_HOST")
+    mpd_port = os.environ.get("MPD_PORT")
+    mpd_client.connect(mpd_host, mpd_port)
 
     # Connect to MongoDB
     collection = connect_mongodb()
