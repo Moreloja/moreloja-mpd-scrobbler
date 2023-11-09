@@ -1,0 +1,16 @@
+name: Lint with pre-commit
+
+on: [push, pull_request]
+
+jobs:
+  pre-commit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v4
+      - name: Install pre-commit
+        shell: bash
+        run: pip install pre-commit
+      - name: Run pre-commit
+        shell: bash
+        run: pre-commit run --all-files
