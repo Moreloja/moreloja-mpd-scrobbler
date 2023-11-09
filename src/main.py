@@ -81,7 +81,9 @@ def save_currentsong(mpd_client: MPDClient, collection):
                     "ServerVersion": mpd_client.mpd_version,
                     "date": previous_song.get("date", None),
                     "originaldate": previous_song.get("originaldate", None),
-                    "Year": int(previous_song.get("originaldate", "")[:4]),
+                    "Year": int(previous_song["originaldate"][:4])
+                    if previous_song.get("originaldate", "")
+                    else None,
                     "disc": previous_song.get("disc", None),
                     "track": previous_song.get("track", None),
                     "genre": previous_song.get("genre", None),
