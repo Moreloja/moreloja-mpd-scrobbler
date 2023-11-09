@@ -1,4 +1,5 @@
 black
+pre-commit
 pylint
 pymongo
 python-mpd2

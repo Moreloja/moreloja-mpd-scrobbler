@@ -8,9 +8,11 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v4
-      - name: Install pre-commit
-        shell: bash
-        run: pip install pre-commit
+        with:
+          python-version: "3.12"
+          # caching pip dependencies
+          cache: "pip"
+      - run: pip install -r requirements.txt
       - name: Run pre-commit
         shell: bash
         run: pre-commit run --all-files
