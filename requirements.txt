@@ -1,2 +1,4 @@
+black
+pylint
 pymongo
 python-mpd2
